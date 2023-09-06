@@ -1,0 +1,35 @@
+--Create a video game store database
+CREATE TABLE Store (game_id Integer Primary Key, game_name TEXT, genre TEXT, released_year Integer, price NUMERIC,stock Integer);
+
+INSERT INTO Store VALUES (1,'Bioshock','Shooting-Action',2007,45.99,10);
+INSERT INTO Store VALUES (2,'Devil May cry 3','Hack and Slash',2007,60,7);
+INSERT INTO Store VALUES (3,'Call of Duty 4','Shooting',2006,49.99,10);
+INSERT INTO Store VALUES (4,'Call of Duty Modern Warfare II','Shooting',2008,49.99,5);
+INSERT INTO Store VALUES (5,'FIFA 2013','Sports',2013,59.99,150);
+INSERT INTO Store VALUES (6,'NBA 2K13','Sports',2013,59.99,78);
+INSERT INTO Store VALUES (7,'NFS Underground 2','Racing',2004,30,25);
+INSERT INTO Store VALUES (8,'FIFA 2014','Sports',2014,60,200);
+INSERT INTO Store VALUES (9,'Kara no Shoujo','Visual Novel',2002,9.99,NULL);
+INSERT INTO Store VALUES (10,'Kara no Shoujo 2','Visual Novel',2004,9.99,3);
+INSERT INTO Store VALUES (11,'DOTA 2','MOBA',2011,15,200);
+INSERT INTO Store VALUES (12,'Borderlands 2','Shooting-Action',2012,29.99,65);
+INSERT INTO Store VALUES (13,'Diablo 2','RPG',1999,4.99,30);
+INSERT INTO Store VALUES (14,'Diablo 3','RPG',2013,60,500);
+INSERT INTO Store VALUES (15,'Diablo 4','RPG',2023,79.99,150);
+
+SELECT * FROM Store;
+
+--display the database ordered by price descending/
+SELECT * FROM Store order by price desc;
+
+-- how many video games we have for each genre?
+SELECT genre,count(*)"Number of games per genre" from store group by genre;
+
+-- what is the SUM of video games stocks grouped by the released year.
+SELECT released_year,SUM(stock) from store group by released_year;
+
+-- how many games were released in each year?
+SELECT released_year, count(*) from store group by released_year;
+
+-- what are the 5 most expensive games?
+select game_name,genre,price from store order by price desc limit 5;
