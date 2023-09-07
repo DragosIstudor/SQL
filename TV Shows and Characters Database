@@ -1,0 +1,71 @@
+/* First I created the tables : 1.Characters,2.The TV Shows,3.The Relationship between the characters */
+CREATE TABLE TV_Characters (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    FullName TEXT,
+    Age INTEGER,
+    Role TEXT,
+    Alignment TEXT,
+    Occupation TEXT,
+    Gender TEXT,
+    Appereances INTEGER,
+    show_id INTEGER
+ );
+    
+CREATE TABLE TV_Shows (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Title TEXT,
+    Genre TEXT,
+    Rating NUMERIC,
+    Episodes INTEGER
+);
+
+CREATE TABLE Relationships (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    character1_id INTEGER,
+    character2_id INTEGER,
+    show_id INTEGER,
+    type TEXT
+);
+
+INSERT INTO TV_Characters (FullName,Age,Role,Alignment,Occupation,Gender,Appereances,show_id) VALUES ('Tony Soprano',43,'Protagonist','Bad','Mafia Boss','Male',86,2),('Junior Soprano',75,'Main Character','Bad','Retired Gangster','Male',55,2),('Walter White',55,'Protagonist','Bad','Chemistry Teacher','Male',62,1),('Wednesday Addams',16,'Protagonist','Neutral','High-School Student','Female',9,5),('Jon Snow',21,'Main Character','Good',"Night's watch guard",'Male',62,4),  ('Adriana La Cerva',27,'Secondary Character','Neutral','Waitress','Female',47,2),('Jesse Pinkman',27,'Main Character','Neutral','Unemployed','Male',62,1),('Carmela Soprano',39,'Main Character','Good','Housewife','Female',85,2),('Christopher Moltisanti',30,'Main Character','Bad','Mobster','Male',83,2),('Phil Leotardo',66,'Secondary Character','Bad','Mafia Boss','Male',30,2),('Skyler White',40,'Main Character','Good','Housewife/Accountant','Female',62,1),('Gus Fring',53,'Secondary Character','Bad','Drug Dealer','Male',30,1),('Tyrion Lannister',40,'Main Character','Good','Funny Dwarf','Male',67,4),
+('Cersei Lannister',44,'Main Character','Bad','Queen','Female',62,4),
+('Jamie Lannister',47,'Main Character','Neutral',"King's guard",'Male',55,4);
+
+INSERT INTO TV_Characters (FullName,Role,Alignment,Occupation,Gender,Appereances,show_id) VALUES ('Lagertha','Main Character','Good','Shield-Maiden','Female',71,6);
+
+INSERT INTO TV_Characters (FullName,Role,Alignment,Occupation,Gender,Appereances) VALUES ('Geralt of Rivia','Protagonist','Neutral','Witcher','Male',24);
+
+INSERT INTO TV_Shows (Title,Genre,Rating,Episodes) VALUES
+('Breaking Bad','Crime/Drama',9.5,62),('The Sopranos','Crime/Drama',9.2,86),('Friends','Romance',8.9,234),('Game of Thrones','Action/Adventure/Drama',9.2,73),('Wednesday','Comedy/Crime/Fantasy',8.1,9),('Vikings','Action/Adventure/Drama',8.5,93);
+
+INSERT INTO Relationships (character1_id,character2_id,show_id,type) VALUES (1,8,2,'Married'),(1,2,2,'Nephew-Uncle'),(1,9,2,'Boss-Nephew'),(13,14,4,'Siblings'),(13,15,4,'Siblings'),(14,15,4,'Siblings'),(1,6,2,NULL),(1,10,2,'Enemies'),(2,9,2,NULL);
+
+
+-- I want to display the relationships between the characters in the same show.
+
+select t.fullname as 'Character 1',u.fullname as 'Character 2',r.type as Relationship from relationships r
+join tv_characters t
+on t.id=r.character1_id
+join tv_characters u
+on u.id=r.character2_id;
+
+-- Same idea as above but inversed the tables and used a left join to also display the characters which I have not assigned a relationship status.
+
+select t.fullname as 'Character 1',u.fullname as 'Character 2',r.type as Relationship from tv_characters t
+left join relationships r
+on t.id=r.character1_id
+left join tv_characters u
+on u.id=r.character2_id;
+
+-- Display the number of episodes and the serial name by joining the characters and shows tables.
+
+select distinct tv.title,tv.genre,tv.episodes from tv_shows tv
+join tv_characters tc
+on tc.show_id=tv.id
+order by tv.episodes desc;
+
+-- Display the average rating for each genre in our database.
+
+select genre,avg(rating) as AvgRating from tv_shows
+group by genre
+order by AvgRating desc
