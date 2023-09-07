@@ -69,3 +69,11 @@ order by tv.episodes desc;
 select genre,avg(rating) as AvgRating from tv_shows
 group by genre
 order by AvgRating desc
+
+-- I made a left join on the tv_shows table to display the the ''Friends'' serial doesn't have a character assigned to it, so we have NULL.
+
+select tv.title,tc.fullname,tv.genre,tv.episodes,tv.rating from tv_shows tv
+left join tv_characters tc
+on tc.show_id=tv.id
+where tc.fullname is NULL;
+
