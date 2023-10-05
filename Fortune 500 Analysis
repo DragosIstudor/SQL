@@ -16,6 +16,13 @@ from fortune_companies
 group by industry
 order by companies_number asc;
 
+# Which companies have healthcare benefits *and* at least 20 paid time off days?
+SELECT company_name
+FROM fortune_companies
+WHERE paid_time_off_days>20
+AND healthcare_benefits=1
+;
+
 
 # The company with the most employees
 
