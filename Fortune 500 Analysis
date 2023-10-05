@@ -1,0 +1,44 @@
+# Analysis:
+
+# I want to see the top 5 companies name, their industry in which employees have an average tenure between 3 and 5 years
+
+select company_name,industry,avg_employee_tenure
+from fortune_companies
+where avg_employee_tenure between 3 and 5
+order by avg_employee_tenure desc
+limit 5;
+
+
+# Count how many companies are in each industry starting from the lowest to the highest.
+
+select count(*) AS companies_number,industry
+from fortune_companies
+group by industry
+order by companies_number asc;
+
+
+# The company with the most employees
+
+select company_name, max(employees) as Employees from fortune_companies;
+
+
+# Which industries have an average revenue of at least $200 Billion, and what are their avg revenues?
+
+SELECT industry, ROUND(AVG(revenue),1) as avg_revenue_billions
+FROM fortune_companies
+GROUP BY industry
+HAVING avg_revenue_billions>=200
+order by avg_revenue_billions desc
+;
+
+
+# Assign all the companies in the Technology and Retail industry as "Good workplace", "Acceptable", or "Abysmal" based on the paid time off days offered. 
+
+select company_name,paid_time_off_days,
+CASE
+      WHEN paid_time_off_days > 20 THEN 'Good workplace'
+      WHEN paid_time_off_days between 18 and 20 THEN 'Acceptable'
+      ELSE 'Abysmal'
+END AS 'Employee Happiness'
+from fortune_companies
+where industry in ('Technology','Retail')
