@@ -1,5 +1,5 @@
 # This is my final SQL Project , I imported a data set called Chinook, which represents a digital media store that includes tables for artists, albums, media tracks, invoices, and customers.
-# Below I came up with some interesting that questions that I consider to be relevant for this data set
+# Below I came up with some interesting questions that I consider to be relevant for this data set
 
 -- 1. Show Customers (their full names, customer ID, and country) who are not in the US.
 
